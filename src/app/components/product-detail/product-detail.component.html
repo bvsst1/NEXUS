@@ -1,0 +1,42 @@
+<section class="section-block detail-page">
+  <div class="container">
+    <div class="content-panel" *ngIf="game; else missingProduct">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-6 reveal">
+          <img class="detail-image" [src]="game.image" [alt]="game.name">
+        </div>
+
+        <div class="col-12 col-lg-6 reveal reveal-delay-1">
+          <span class="eyebrow">{{ game.category }}</span>
+          <h1 class="display-5 mt-3 mb-3">{{ game.name }}</h1>
+          <p class="mb-4">{{ game.description }}</p>
+
+          <div class="detail-list mb-4">
+            <span class="badge-role">{{ game.players }}</span>
+            <span class="badge-soft">Entrega premium</span>
+          </div>
+
+          <p class="price-tag mb-4">{{ formatPrice(game.price) }}</p>
+
+          <div class="d-flex flex-column flex-sm-row gap-3">
+            <a class="btn btn-warm" routerLink="/">Volver al catalogo</a>
+            <a class="btn btn-soft" routerLink="/registro">Crear cuenta</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #missingProduct>
+  <section class="section-block detail-page">
+    <div class="container">
+      <div class="content-panel text-center">
+        <span class="eyebrow">producto no encontrado</span>
+        <h1 class="mt-3 mb-3">No encontramos el juego solicitado.</h1>
+        <p class="mb-4">Vuelve al catalogo para seguir explorando la coleccion completa.</p>
+        <a class="btn btn-warm" routerLink="/">Ir al inicio</a>
+      </div>
+    </div>
+  </section>
+</ng-template>

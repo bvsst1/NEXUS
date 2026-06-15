@@ -1,0 +1,77 @@
+<header class="hero">
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-12 col-lg-7 reveal">
+        <div class="hero-panel h-100 d-flex flex-column justify-content-center">
+          <span class="eyebrow">tienda editorial para tardes memorables</span>
+          <h1 class="display-4 my-3">Juegos de mesa con una seleccion pensada para conversar, reir y volver a reunirse.</h1>
+          <p class="lead mb-4">Una tienda pensada para descubrir clasicos modernos, favoritos familiares y nuevas noches de juego.</p>
+          <div class="d-flex flex-column flex-sm-row gap-3">
+            <a class="btn btn-warm btn-lg" href="#catalogo">Explorar catalogo</a>
+            <a class="btn btn-soft btn-lg" routerLink="/registro">Crear cuenta cliente</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong class="d-block fs-4">+40</strong>
+              <span>titulos para estrategia, reuniones y partidas memorables.</span>
+            </div>
+            <div class="hero-stat">
+              <strong class="d-block fs-4">1 catalogo</strong>
+              <span>una vitrina dinamica construida con Angular.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-5 reveal reveal-delay-1">
+        <div class="hero-art h-100 d-flex flex-column justify-content-end">
+          <span class="eyebrow text-light">seleccion destacada</span>
+          <h2 class="mt-3">Colecciones calidas para compartir alrededor de la mesa.</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section-block" id="catalogo">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12 col-lg-7 section-heading reveal">
+          <span class="eyebrow">catalogo principal</span>
+          <h2 class="mt-3 mb-3">Titulos para abrir la mesa y sostener la conversacion.</h2>
+          <p>Explora una seleccion cuidada para tardes largas, partidas ligeras y desafios estrategicos.</p>
+        </div>
+      </div>
+
+      <div class="row catalog-grid" *ngIf="games.length; else emptyCatalog">
+        <article class="col-sm-6 col-lg-4" *ngFor="let game of games; let i = index">
+          <div class="product-card h-100 reveal" [class.reveal-delay-1]="i % 3 === 1" [class.reveal-delay-2]="i % 3 === 2">
+            <img [src]="game.image" [alt]="game.name">
+
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-2">
+              <div>
+                <span class="eyebrow">{{ game.category }}</span>
+                <h3 class="h4 mt-2 mb-1">{{ game.name }}</h3>
+              </div>
+              <span class="badge-role">{{ game.players }}</span>
+            </div>
+
+            <p>{{ game.description }}</p>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <span class="price-tag">{{ formatPrice(game.price) }}</span>
+              <a class="btn btn-warm" [routerLink]="['/producto', game.id]">Ver detalle</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<ng-template #emptyCatalog>
+  <div class="container">
+    <div class="empty-state">No hay juegos disponibles en este momento.</div>
+  </div>
+</ng-template>

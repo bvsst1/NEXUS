@@ -1,0 +1,10 @@
+/.angular/
+/dist/
+/node_modules/
+/out-tsc/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo

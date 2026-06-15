@@ -1,0 +1,44 @@
+<main class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xl-8">
+      <div class="form-panel reveal">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+          <div>
+            <span class="eyebrow">perfil editable</span>
+            <h1 class="mt-3 mb-2">Actualiza tus datos.</h1>
+          </div>
+          <div class="align-self-md-start">
+            <a class="btn btn-soft" routerLink="/">Volver al catalogo</a>
+          </div>
+        </div>
+
+        <form (ngSubmit)="saveProfile()">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="profile-name">Nombre</label>
+              <input id="profile-name" name="name" class="form-control" type="text" [(ngModel)]="formData.name">
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="profile-email">Correo</label>
+              <input id="profile-email" name="email" class="form-control" type="email" [(ngModel)]="formData.email">
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="profile-phone">Telefono</label>
+              <input id="profile-phone" name="phone" class="form-control" type="tel" [(ngModel)]="formData.phone">
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="profile-city">Ciudad</label>
+              <input id="profile-city" name="city" class="form-control" type="text" [(ngModel)]="formData.city">
+            </div>
+          </div>
+
+          <button class="btn btn-warm mt-4" type="submit">Guardar cambios</button>
+          <div *ngIf="saved" class="notice mt-3">Perfil actualizado en la maqueta Angular.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
