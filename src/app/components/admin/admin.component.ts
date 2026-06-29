@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { GAMES_MOCK } from '../../data/games.mock';
-import { USERS_MOCK } from '../../data/users.mock';
 import { Game } from '../../models/game.model';
-import { User } from '../../models/user.model';
+import { AuthService } from '../../services/auth.service';
+import { CatalogService, ProductPayload } from '../../services/catalog.service';
 
 @Component({
   selector: 'app-admin',
@@ -14,12 +13,12 @@ import { User } from '../../models/user.model';
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
-  products: Game[] = [...GAMES_MOCK];
-  users: User[] = USERS_MOCK;
+  readonly products = this.catalogService.games;
+  readonly users = this.authService.users;
   notice = '';
   editingId: number | null = null;
 
-  formData: Omit<Game, 'id'> = {
+  formData: ProductPayload = {
     name: '',
     description: '',
     price: 0,
@@ -27,6 +26,11 @@ export class AdminComponent {
     category: '',
     players: ''
   };
+
+  constructor(
+    private readonly catalogService: CatalogService,
+    private readonly authService: AuthService
+  ) {}
 
   formatPrice(value: number): string {
     return new Intl.NumberFormat('es-CL', {
@@ -37,22 +41,8 @@ export class AdminComponent {
   }
 
   saveProduct(): void {
-    if (this.editingId !== null) {
-      this.products = this.products.map((product) =>
-        product.id === this.editingId ? { id: this.editingId, ...this.formData } : product
-      );
-      this.notice = 'Producto actualizado.';
-    } else {
-      this.products = [
-        ...this.products,
-        {
-          id: Date.now(),
-          ...this.formData
-        }
-      ];
-      this.notice = 'Producto agregado.';
-    }
-
+    this.catalogService.saveProduct(this.formData, this.editingId);
+    this.notice = this.editingId !== null ? 'Producto actualizado.' : 'Producto agregado.';
     this.resetForm();
   }
 
@@ -70,10 +60,12 @@ export class AdminComponent {
   }
 
   deleteProduct(productId: number): void {
-    this.products = this.products.filter((product) => product.id !== productId);
+    this.catalogService.deleteProduct(productId);
+
     if (this.editingId === productId) {
       this.resetForm();
     }
+
     this.notice = 'Producto eliminado.';
   }
 

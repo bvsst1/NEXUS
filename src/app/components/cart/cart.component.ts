@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CART_MOCK } from '../../data/cart.mock';
-import { CartItem } from '../../models/cart-item.model';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +11,10 @@ import { CartItem } from '../../models/cart-item.model';
   styleUrl: './cart.component.css'
 })
 export class CartComponent {
-  cartItems: CartItem[] = CART_MOCK;
+  readonly cartItems = this.cartService.items;
+  readonly subtotal = this.cartService.subtotal;
+
+  constructor(private readonly cartService: CartService) {}
 
   formatPrice(value: number): string {
     return new Intl.NumberFormat('es-CL', {
@@ -22,11 +24,7 @@ export class CartComponent {
     }).format(value);
   }
 
-  get subtotal(): number {
-    return this.cartItems.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
-  }
-
   removeItem(productId: number): void {
-    this.cartItems = this.cartItems.filter((item) => item.productId !== productId);
+    this.cartService.removeItem(productId);
   }
 }

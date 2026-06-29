@@ -1,6 +1,6 @@
 <div class="page-shell">
   <nav class="navbar navbar-expand-lg sticky-top topbar">
-    <div class="container py-2">
+    <div class="container py-3">
       <a class="navbar-brand brand-mark" routerLink="/">
         Nexus
         <span class="brand-subtitle">juegos de mesa</span>
@@ -24,19 +24,22 @@
             <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Catalogo</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLink="/cart" routerLinkActive="active">Carrito</a>
+            <a class="nav-link" routerLink="/cart" routerLinkActive="active">Carrito <span *ngIf="cartCount()">({{ cartCount() }})</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+          <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active">Panel Admin</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/profile" routerLinkActive="active">Perfil</a>
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <a class="nav-link" routerLink="/profile" routerLinkActive="active">{{ currentUser()?.name || 'Perfil' }}</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="!isLoggedIn()">
             <a class="nav-link" routerLink="/login" routerLinkActive="active">Ingresar</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="!isLoggedIn()">
             <a class="btn btn-warm" routerLink="/registro">Crear cuenta</a>
+          </li>
+          <li class="nav-item" *ngIf="isLoggedIn()">
+            <button class="btn btn-soft" type="button" (click)="logout()">Cerrar sesion</button>
           </li>
         </ul>
       </div>

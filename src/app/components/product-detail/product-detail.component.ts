@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { GAMES_MOCK } from '../../data/games.mock';
 import { Game } from '../../models/game.model';
+import { CartService } from '../../services/cart.service';
+import { CatalogService } from '../../services/catalog.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -13,13 +14,18 @@ import { Game } from '../../models/game.model';
 })
 export class ProductDetailComponent implements OnInit {
   game?: Game;
+  feedbackMessage = '';
 
-  constructor(private readonly route: ActivatedRoute) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly catalogService: CatalogService,
+    private readonly cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = Number(params.get('id'));
-      this.game = GAMES_MOCK.find((item) => item.id === id);
+      this.game = this.catalogService.getById(id);
     });
   }
 
@@ -29,5 +35,14 @@ export class ProductDetailComponent implements OnInit {
       currency: 'CLP',
       maximumFractionDigits: 0
     }).format(value);
+  }
+
+  addToCart(): void {
+    if (!this.game) {
+      return;
+    }
+
+    this.cartService.addToCart(this.game);
+    this.feedbackMessage = `${this.game.name} fue agregado al carrito.`;
   }
 }

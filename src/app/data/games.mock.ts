@@ -54,5 +54,50 @@ export const GAMES_MOCK: Game[] = [
     image: 'https://images.unsplash.com/photo-1585504198199-20277593b94f?auto=format&fit=crop&w=900&q=80',
     category: 'Clasico',
     players: '2-5 jugadores'
+  },
+  {
+    id: 7,
+    name: 'Patchwork Casa',
+    description: 'Un duelo sereno de piezas y mantas, ideal para una tarde tranquila en pareja.',
+    price: 24990,
+    image: 'https://images.unsplash.com/photo-1516542076529-1ea3854896f2?auto=format&fit=crop&w=900&q=80',
+    category: 'Abstracto',
+    players: '2 jugadores'
+  },
+  {
+    id: 8,
+    name: 'Dobble Merienda',
+    description: 'Rapido, ligero y perfecto para jugar con ninos, abuelos o amigos sin explicaciones largas.',
+    price: 15990,
+    image: 'https://images.unsplash.com/photo-1518133835878-5a93cc3f89e5?auto=format&fit=crop&w=900&q=80',
+    category: 'Infantil',
+    players: '2-8 jugadores'
+  },
+  {
+    id: 9,
+    name: 'Sushi Go Picnic',
+    description: 'Cartas simples, rondas cortas y decisiones simpaticas para compartir despues de almuerzo.',
+    price: 18990,
+    image: 'https://images.unsplash.com/photo-1529699211952-734e80c4d42b?auto=format&fit=crop&w=900&q=80',
+    category: 'Cartas',
+    players: '2-5 jugadores'
+  },
+  {
+    id: 10,
+    name: 'Kingdomino Roble',
+    description: 'Construye un pequeno reino con reglas faciles y una mesa visualmente ordenada y amable.',
+    price: 22990,
+    image: 'https://images.unsplash.com/photo-1560179406-1c6c60e0dc76?auto=format&fit=crop&w=900&q=80',
+    category: 'Familiar',
+    players: '2-4 jugadores'
+  },
+  {
+    id: 11,
+    name: 'Cascadia Norte',
+    description: 'Paisajes, animales y partidas suaves para quienes disfrutan juegos bonitos y relajados.',
+    price: 38990,
+    image: 'https://images.unsplash.com/photo-1543092587-d8b8feaf3628?auto=format&fit=crop&w=900&q=80',
+    category: 'Naturaleza',
+    players: '1-4 jugadores'
   }
 ];

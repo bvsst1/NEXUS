@@ -3,15 +3,22 @@
     <div class="form-panel reveal">
       <span class="eyebrow">registro cliente</span>
       <h1 class="mt-3 mb-3">Crea tu cuenta para seguir tu proxima compra</h1>
-      <p class="mb-4">Formulario reactivo con validaciones y mensajes de error dinámicos.</p>
 
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="row g-3">
-          <div class="col-12">
-            <label class="form-label" for="register-name">Nombre</label>
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="register-name">Nombre completo</label>
             <input id="register-name" formControlName="name" class="form-control glass-input" type="text">
             <div class="text-danger mt-1" *ngIf="(f['name'].touched || submitted) && f['name'].errors?.['required']">
-              El nombre es obligatorio.
+              El nombre completo es obligatorio.
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="register-username">Usuario</label>
+            <input id="register-username" formControlName="username" class="form-control glass-input" type="text">
+            <div class="text-danger mt-1" *ngIf="(f['username'].touched || submitted) && f['username'].errors?.['required']">
+              El nombre de usuario es obligatorio.
             </div>
           </div>
 
@@ -22,7 +29,18 @@
               El correo es obligatorio.
             </div>
             <div class="text-danger mt-1" *ngIf="(f['email'].touched || submitted) && f['email'].errors?.['email']">
-              Ingrese un correo válido.
+              Ingresa un correo valido.
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label class="form-label" for="register-birthdate">Fecha de nacimiento</label>
+            <input id="register-birthdate" formControlName="birthDate" class="form-control glass-input" type="date">
+            <div class="text-danger mt-1" *ngIf="(f['birthDate'].touched || submitted) && f['birthDate'].errors?.['required']">
+              La fecha de nacimiento es obligatoria.
+            </div>
+            <div class="text-danger mt-1" *ngIf="(f['birthDate'].touched || submitted) && f['birthDate'].errors?.['underAge']">
+              Debes tener al menos 13 anos.
             </div>
           </div>
 
@@ -33,37 +51,30 @@
               La contraseña es obligatoria.
             </div>
             <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['passwordStrength']">
-              La contraseña debe tener entre 6 y 18 caracteres, al menos un número y una mayúscula.
+              Debe tener entre 6 y 18 caracteres, una mayuscula y al menos un numero.
             </div>
           </div>
 
           <div class="col-12 col-md-6">
-            <label class="form-label" for="register-confirm-password">Repetir Contraseña</label>
+            <label class="form-label" for="register-confirm-password">Confirmar contraseña</label>
             <input id="register-confirm-password" formControlName="confirmPassword" class="form-control glass-input" type="password">
             <div class="text-danger mt-1" *ngIf="(f['confirmPassword'].touched || submitted) && f['confirmPassword'].errors?.['required']">
-              Repetir la contraseña es obligatorio.
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="register-birthdate">Fecha de Nacimiento</label>
-            <input id="register-birthdate" formControlName="birthDate" class="form-control glass-input" type="date">
-            <div class="text-danger mt-1" *ngIf="(f['birthDate'].touched || submitted) && f['birthDate'].errors?.['required']">
-              La fecha de nacimiento es obligatoria.
-            </div>
-            <div class="text-danger mt-1" *ngIf="(f['birthDate'].touched || submitted) && f['birthDate'].errors?.['underAge']">
-              Debes tener al menos 13 años.
+              Debes confirmar la contraseña.
             </div>
           </div>
 
           <div class="col-12">
-            <label class="form-label" for="register-address">Dirección de Despacho (opcional)</label>
+            <label class="form-label" for="register-address">Direccion de despacho (opcional)</label>
             <input id="register-address" formControlName="address" class="form-control glass-input" type="text">
           </div>
         </div>
 
         <div class="text-danger mt-2" *ngIf="(submitted || registerForm.touched) && registerForm.errors?.['passwordsMismatch']">
           Las contraseñas no coinciden.
+        </div>
+
+        <div class="notice mt-3" *ngIf="feedbackMessage" [ngClass]="{ 'text-danger': feedbackType === 'error' }">
+          {{ feedbackMessage }}
         </div>
 
         <button class="btn btn-warm w-100 mt-4" type="submit">Crear cuenta</button>

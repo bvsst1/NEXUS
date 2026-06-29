@@ -3,22 +3,29 @@
     <div class="form-panel reveal">
       <span class="eyebrow">ingreso cliente</span>
       <h1 class="mt-3 mb-3">Accede a tu cuenta Nexus</h1>
-      <p class="mb-4">Formulario base con Angular y ngModel, sin validaciones agregadas.</p>
+      <p class="mb-4">Inicia sesion con un usuario guardado en localStorage o con las cuentas demo del proyecto. Los administradores son redirigidos automaticamente a su panel.</p>
 
-      <form>
+      <form (ngSubmit)="onSubmit()">
         <div class="mb-3">
           <label class="form-label" for="login-email">Correo</label>
-          <input id="login-email" name="email" class="form-control" type="email" [(ngModel)]="formData.email">
+          <input id="login-email" name="email" class="form-control glass-input" type="email" [(ngModel)]="formData.email" required>
         </div>
 
         <div class="mb-4">
           <label class="form-label" for="login-password">Contrasena</label>
-          <input id="login-password" name="password" class="form-control" type="password" [(ngModel)]="formData.password">
+          <input id="login-password" name="password" class="form-control glass-input" type="password" [(ngModel)]="formData.password" required>
         </div>
 
-        <button class="btn btn-warm w-100" type="button">Ingresar</button>
+        <div class="notice mb-3" *ngIf="feedbackMessage">{{ feedbackMessage }}</div>
+
+        <button class="btn btn-warm w-100" type="submit">Ingresar</button>
         <a class="btn btn-soft w-100 mt-3" routerLink="/recover-password">Recuperar contrasena</a>
       </form>
+
+      <div class="notice mt-4">
+        Demo admin: admin&#64;nexus.cl / Admin&#64;123<br>
+        Demo cliente: cliente&#64;nexus.cl / Cliente&#64;123
+      </div>
     </div>
   </div>
 </section>

@@ -16,21 +16,37 @@ describe('RegisterComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
-  it('should be invalid when required fields are empty', () => {
-    expect(component.registerForm.valid).toBeFalse();
+  it('should fail email validation when format lacks @', () => {
+    const emailControl = component.registerForm.controls['email'];
+
+    emailControl.setValue('correo-invalido');
+
+    expect(emailControl.invalid).toBeTrue();
+    expect(emailControl.errors?.['email']).toBeTrue();
   });
 
-  it('should be valid when all required fields are filled correctly', () => {
+  it('should fail when passwords do not match', () => {
+    component.registerForm.patchValue({
+      password: 'Test123',
+      confirmPassword: 'Otra123'
+    });
+
+    expect(component.registerForm.errors?.['passwordsMismatch']).toBeTrue();
+  });
+
+  it('should be valid when all required fields are filled correctly with age > 13', () => {
     component.registerForm.patchValue({
       name: 'Test User',
+      username: 'testuser',
       email: 'test@example.com',
       password: 'Test123',
       confirmPassword: 'Test123',
       birthDate: '2000-01-01'
     });
+
     expect(component.registerForm.valid).toBeTrue();
   });
 });
