@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Game } from '../../models/game.model';
 import { CartService } from '../../services/cart.service';
-import { CatalogService } from '../../services/catalog.service';
+import { GamesService } from '../../services/games.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,14 +18,17 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly catalogService: CatalogService,
+    private readonly gamesService: GamesService,
     private readonly cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const id = Number(params.get('id'));
-      this.game = this.catalogService.getById(id);
+      this.gamesService.getGameById(id).subscribe({
+        next: (game) => this.game = game,
+        error: () => console.error('Error al cargar el juego.')
+      });
     });
   }
 

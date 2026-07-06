@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Game } from '../../models/game.model';
 import { CartService } from '../../services/cart.service';
-import { CatalogService } from '../../services/catalog.service';
+import { GamesService } from '../../services/games.service';
 
 @Component({
   selector: 'app-catalog',
@@ -12,14 +12,21 @@ import { CatalogService } from '../../services/catalog.service';
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })
-export class CatalogComponent {
-  readonly games = this.catalogService.games;
+export class CatalogComponent implements OnInit {
+  readonly games = signal<Game[]>([]);
   addedMessage = '';
 
   constructor(
-    private readonly catalogService: CatalogService,
+    private readonly gamesService: GamesService,
     private readonly cartService: CartService
   ) {}
+
+  ngOnInit(): void {
+    this.gamesService.getGames().subscribe({
+      next: (games) => this.games.set(games),
+      error: () => console.error('Error al cargar los juegos.')
+    });
+  }
 
   formatPrice(value: number): string {
     return new Intl.NumberFormat('es-CL', {
