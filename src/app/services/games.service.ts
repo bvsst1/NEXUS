@@ -5,19 +5,13 @@ import { Game } from '../models/game.model';
 
 @Injectable({ providedIn: 'root' })
 export class GamesService {
-  private readonly baseUrl = 'https://nexus-boardgames-default-rtdb.firebaseio.com';
+  private readonly apiUrl = 'https://6a55b06be49d9eb2cc55ec31.mockapi.io/games';
 
   constructor(private readonly http: HttpClient) {}
 
   getGames(): Observable<Game[]> {
-    return this.http.get<Record<string, Game> | null>(`${this.baseUrl}/games.json`).pipe(
-      map(data => {
-        if (!data) return [];
-        return Object.entries(data).map(([key, value]) => ({
-          ...value,
-          id: key as unknown as number
-        }));
-      }),
+    return this.http.get<Game[]>(this.apiUrl).pipe(
+      map(games => games.map(game => ({ ...game, id: Number(game.id) }))),
       catchError(() => {
         console.error('Error al obtener juegos.');
         return of([]);
@@ -26,8 +20,8 @@ export class GamesService {
   }
 
   getGameById(id: number): Observable<Game | undefined> {
-    return this.http.get<Game | null>(`${this.baseUrl}/games/${id}.json`).pipe(
-      map(data => (data ? { ...data, id } : undefined)),
+    return this.http.get<Game>(`${this.apiUrl}/${id}`).pipe(
+      map(game => ({ ...game, id: Number(game.id) })),
       catchError(() => {
         console.error('Error al obtener el juego.');
         return of(undefined);
@@ -36,11 +30,8 @@ export class GamesService {
   }
 
   addGame(game: Omit<Game, 'id'>): Observable<Game> {
-    return this.http.post<{ name: string }>(`${this.baseUrl}/games.json`, game).pipe(
-      map(response => ({
-        ...game,
-        id: response.name as unknown as number
-      })),
+    return this.http.post<Game>(this.apiUrl, game).pipe(
+      map(created => ({ ...created, id: Number(created.id) })),
       catchError(error => {
         console.error('Error al agregar juego:', error);
         throw error;
@@ -49,8 +40,8 @@ export class GamesService {
   }
 
   updateGame(id: number, game: Partial<Game>): Observable<Game> {
-    return this.http.patch<Partial<Game>>(`${this.baseUrl}/games/${id}.json`, game).pipe(
-      map(() => ({ ...game, id } as Game)),
+    return this.http.put<Game>(`${this.apiUrl}/${id}`, game).pipe(
+      map(updated => ({ ...updated, id: Number(updated.id) })),
       catchError(error => {
         console.error('Error al actualizar juego:', error);
         throw error;
@@ -58,8 +49,9 @@ export class GamesService {
     );
   }
 
-  deleteGame(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/games/${id}.json`).pipe(
+  deleteGame(id: number): Observable<Game> {
+    return this.http.delete<Game>(`${this.apiUrl}/${id}`).pipe(
+      map(deleted => ({ ...deleted, id: Number(deleted.id) })),
       catchError(error => {
         console.error('Error al eliminar juego:', error);
         throw error;
