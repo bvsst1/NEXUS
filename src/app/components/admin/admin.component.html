@@ -11,36 +11,36 @@
       <section class="content-panel reveal reveal-delay-1">
         <h2 class="h3 mb-3">{{ editingId ? 'Editar producto' : 'Agregar producto' }}</h2>
 
-        <form (ngSubmit)="saveProduct()">
+        <form [formGroup]="gameForm" (ngSubmit)="saveProduct()">
           <div class="row g-3">
             <div class="col-12">
               <label class="form-label" for="admin-name">Nombre</label>
-              <input id="admin-name" name="name" class="form-control" type="text" [(ngModel)]="formData.name" required>
+              <input id="admin-name" class="form-control" type="text" formControlName="name">
             </div>
 
             <div class="col-12 col-md-6">
               <label class="form-label" for="admin-category">Categoria</label>
-              <input id="admin-category" name="category" class="form-control" type="text" [(ngModel)]="formData.category" required>
+              <input id="admin-category" class="form-control" type="text" formControlName="category">
             </div>
 
             <div class="col-12 col-md-6">
               <label class="form-label" for="admin-players">Jugadores</label>
-              <input id="admin-players" name="players" class="form-control" type="text" [(ngModel)]="formData.players" required>
+              <input id="admin-players" class="form-control" type="text" formControlName="players">
             </div>
 
             <div class="col-12 col-md-6">
               <label class="form-label" for="admin-price">Precio</label>
-              <input id="admin-price" name="price" class="form-control" type="number" [(ngModel)]="formData.price" required>
+              <input id="admin-price" class="form-control" type="number" formControlName="price">
             </div>
 
             <div class="col-12 col-md-6">
               <label class="form-label" for="admin-image">Imagen</label>
-              <input id="admin-image" name="image" class="form-control" type="text" [(ngModel)]="formData.image" required>
+              <input id="admin-image" class="form-control" type="text" formControlName="image">
             </div>
 
             <div class="col-12">
               <label class="form-label" for="admin-description">Descripcion</label>
-              <textarea id="admin-description" name="description" class="form-control" rows="4" [(ngModel)]="formData.description" required></textarea>
+              <textarea id="admin-description" class="form-control" rows="4" formControlName="description"></textarea>
             </div>
           </div>
 
@@ -57,7 +57,7 @@
     <div class="col-12 col-xl-7">
       <section class="content-panel reveal reveal-delay-2">
         <h2 class="h3 mb-3">Catalogo disponible</h2>
-        <div class="table-shell" *ngIf="products().length; else emptyProducts">
+        <div class="table-shell" *ngIf="games.length; else emptyProducts">
           <table class="table align-middle">
             <thead>
               <tr>
@@ -69,15 +69,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let product of products()">
-                <td>{{ product.name }}</td>
-                <td>{{ product.category }}</td>
-                <td>{{ product.players }}</td>
-                <td>{{ formatPrice(product.price) }}</td>
+              <tr *ngFor="let game of games">
+                <td>{{ game.name }}</td>
+                <td>{{ game.category }}</td>
+                <td>{{ game.players }}</td>
+                <td>{{ formatPrice(game.price) }}</td>
                 <td class="text-end">
                   <div class="d-flex justify-content-end gap-2">
-                    <button class="btn btn-outline-warm btn-sm" type="button" (click)="editProduct(product)">Editar</button>
-                    <button class="btn btn-soft btn-sm" type="button" (click)="deleteProduct(product.id)">Eliminar</button>
+                    <button class="btn btn-outline-warm btn-sm" type="button" (click)="editProduct(game)">Editar</button>
+                    <button class="btn btn-soft btn-sm" type="button" (click)="deleteProduct(game.id)">Eliminar</button>
                   </div>
                 </td>
               </tr>
