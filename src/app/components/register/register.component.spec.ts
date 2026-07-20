@@ -30,11 +30,18 @@ describe('RegisterComponent', () => {
 
   it('should fail when passwords do not match', () => {
     component.registerForm.patchValue({
-      password: 'Test123',
-      confirmPassword: 'Otra123'
+      password: 'Test@1234',
+      confirmPassword: 'Otra1234'
     });
 
     expect(component.registerForm.errors?.['passwordsMismatch']).toBeTrue();
+  });
+
+  it('should fail specialChar validation with a simple password', () => {
+    const passwordControl = component.registerForm.controls['password'];
+    passwordControl.setValue('Simple123');
+
+    expect(passwordControl.errors?.['specialChar']).toBeTrue();
   });
 
   it('should be valid when all required fields are filled correctly with age > 13', () => {
@@ -42,8 +49,8 @@ describe('RegisterComponent', () => {
       name: 'Test User',
       username: 'testuser',
       email: 'test@example.com',
-      password: 'Test123',
-      confirmPassword: 'Test123',
+      password: 'Test@1234',
+      confirmPassword: 'Test@1234',
       birthDate: '2000-01-01'
     });
 

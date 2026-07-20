@@ -50,8 +50,17 @@
             <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['required']">
               La contraseña es obligatoria.
             </div>
-            <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['passwordStrength']">
-              Debe tener entre 6 y 18 caracteres, una mayuscula y al menos un numero.
+            <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['minLength']">
+              Minimo 8 caracteres.
+            </div>
+            <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['maxLength']">
+              Maximo 20 caracteres.
+            </div>
+            <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['specialChar']">
+              Debe incluir al menos un caracter especial (!&#64;#$%^&amp;*,.).
+            </div>
+            <div class="text-danger mt-1" *ngIf="(f['password'].touched || submitted) && f['password'].errors?.['letterAndNumber']">
+              Debe incluir letras y numeros.
             </div>
           </div>
 

@@ -13,15 +13,12 @@ import { AuthService } from '../../services/auth.service';
 
 export function passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value || '';
-  const hasUpperCase = /[A-Z]/.test(value);
-  const hasNumber = /[0-9]/.test(value);
-  const validLength = value.length >= 6 && value.length <= 18;
-
-  if (!hasUpperCase || !hasNumber || !validLength) {
-    return { passwordStrength: true };
-  }
-
-  return null;
+  const errors: ValidationErrors = {};
+  if (value.length < 8) errors['minLength'] = true;
+  if (value.length > 20) errors['maxLength'] = true;
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) errors['specialChar'] = true;
+  if (!/[a-zA-Z]/.test(value) || !/[0-9]/.test(value)) errors['letterAndNumber'] = true;
+  return Object.keys(errors).length ? errors : null;
 }
 
 export function passwordsMatchValidator(group: AbstractControl): ValidationErrors | null {
